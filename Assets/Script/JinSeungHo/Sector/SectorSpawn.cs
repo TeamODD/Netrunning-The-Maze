@@ -34,7 +34,7 @@ public class SectorSpawn : MonoBehaviour
         if(!sectorMap.ContainsKey(startPos))
         {
             GameObject startObj = Instantiate(_startSectorPrefab[0], Vector3.zero, Quaternion.identity);
-
+            
             SectorData data = startObj.GetComponent<SectorData>();
             data.Init(startPos);    data.ChangeState(SectorState.Active);
 
@@ -56,12 +56,14 @@ public class SectorSpawn : MonoBehaviour
             if(!sectorMap.TryGetValue(nextSectorPos, out var val))
             {
                 // TODO: 여기서 조건에 따라(또는 무작위로) 3가지 섹터 유형 중 하나를 생성
-                // 현재는 단순히 NormalSector를 생성하는 것으로 함
+                // 현재는 단순히 NormalSector 타입만을 생성하는 것으로 함
 
                 Vector3 spawnPos = new Vector3(nextSectorPos.x * SectorData.WIDTH,
                                                nextSectorPos.y * SectorData.HEIGHT);
 
-                GameObject sectorObj = Instantiate(_normalSectorPrefab[0],
+                int rand = Random.Range(0, _normalSectorPrefab.Length);
+
+                GameObject sectorObj = Instantiate(_normalSectorPrefab[rand],
                                         spawnPos, Quaternion.identity);
                 
                 SectorData data = sectorObj.GetComponent<SectorData>();

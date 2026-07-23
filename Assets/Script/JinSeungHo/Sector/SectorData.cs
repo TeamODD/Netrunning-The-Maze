@@ -5,8 +5,8 @@ using UnityEngine;
 public class SectorData : MonoBehaviour
 {
     private const int MAX_SEED_VALUE = 100000000;
-    public const float WIDTH = 18;
-    public const float HEIGHT = 10;
+    public const float WIDTH = 50;
+    public const float HEIGHT = 28;
     
     /// <summary>
     /// 월드 상에서 현재 섹터의 상하좌우 출입구의 상대 좌표
@@ -43,12 +43,14 @@ public class SectorData : MonoBehaviour
     private bool _isDeleteProtocolOn;
     private bool IsDeleteProtocolOn => _isDeleteProtocolOn;
 
+    private float _stayDuration;
+
     private List<GameObject> _aliveEnemyList = new List<GameObject>();
     private List<GameObject> AliveEnemyList => _aliveEnemyList;
 
     public void Init(Vector2Int currPos)
     {
-        _state = SectorState.Stanby;
+        _state = SectorState.Active;
 
         _sectorPosition = currPos;
 
@@ -58,7 +60,7 @@ public class SectorData : MonoBehaviour
         _isCleared = false;
         _isDeleteProtocolOn = false;
 
-        Test_SectorName();
+        _stayDuration = 0;
     }
 
     /// <summary>
@@ -66,11 +68,4 @@ public class SectorData : MonoBehaviour
     /// </summary>
     /// <param name="state">변환할 섹터 상태</param>
     public void ChangeState(SectorState state) => _state = state;
-
-    private void Test_SectorName()
-    {
-        if(tmp == null) return;
-
-        tmp.text = _seed.ToString() + "\n" + $"({_sectorPosition.x.ToString()}, {_sectorPosition.y.ToString()})";
-    }
 }
