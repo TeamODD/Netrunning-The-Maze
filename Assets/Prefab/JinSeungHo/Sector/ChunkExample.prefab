@@ -242,8 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d86e6f876cf6647ad0b24b7f8920fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SectorData
-  _sectorType: 0
-  _sectorMap: {fileID: 0}
+  _type: 0
+  _state: 0
+  tmp: {fileID: 6633178656325513899}
 --- !u!1 &5438295115959915106
 GameObject:
   m_ObjectHideFlags: 0
