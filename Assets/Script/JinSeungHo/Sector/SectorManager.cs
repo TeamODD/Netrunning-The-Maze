@@ -12,10 +12,18 @@ public class SectorManager : MonoBehaviour
     private Vector2Int _currPlayerPos;
     public Vector2Int CurrPlayerPos => _currPlayerPos;
 
+    /// <summary>
+    /// 현재 플레이어가 위치한 섹터의 삭제 프로토콜
+    /// </summary>
+    private DeleteProtocol _currSectorDeleteProtocol;
+
     private Dictionary<Vector2Int, GameObject> _sectorMap = new Dictionary<Vector2Int, GameObject>();
     public Dictionary<Vector2Int, GameObject> SectorMap => _sectorMap;
 
-    private float _stayDuration;
+    /// <summary>
+    /// 현재 섹터에서 머문 시간
+    /// </summary>
+    private float _currStayDuration;
 
     private void Awake()
     {
@@ -29,7 +37,32 @@ public class SectorManager : MonoBehaviour
         _sectorSpawner.SpawnStartSector(_sectorMap);
         _sectorSpawner.SpawnNextSector(_currPlayerPos, _sectorMap);
 
-        _stayDuration = 0;
+        _currSectorDeleteProtocol = _sectorMap[_currPlayerPos].GetComponent<DeleteProtocol>();
+
+        _currStayDuration = 0;
+    }
+
+    private void Update()
+    {
+        // 프로토콜 시간 갱신
+        _currStayDuration += Time.deltaTime;
+        _currSectorDeleteProtocol.ProtocolUpdate(_currStayDuration);
+
+        // TODO: 여기서 나중에 GetPurgeDamagePercentage() 를 통해
+        // 플레이어에게 입힐 퍼센트 데미지 비례 양을 계산 후 플레이어 HP에 반영
+    }
+
+    /// <summary>
+    /// 플레이어 섹터 위치를 인자 currPos의 위치로 업데이트
+    /// </summary>
+    /// <param name="currPos">현재 위치</param>
+    private void UpdateCurrPlayerPosition(Vector2Int currPos)
+    {
+        _currPlayerPos = currPos;
+
+        _currSectorDeleteProtocol = _sectorMap[currPos].GetComponent<DeleteProtocol>();
+
+        _currStayDuration = _currSectorDeleteProtocol.StayDuration;
     }
 
     [ContextMenu("테스트/섹터 생성")]

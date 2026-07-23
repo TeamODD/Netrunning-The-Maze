@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 476637929731844252}
   - component: {fileID: 369310292964282957}
-  - component: {fileID: -7830357472719070187}
   - component: {fileID: 4871552214281788252}
+  - component: {fileID: -7830357472719070187}
+  - component: {fileID: 2471798938059165571}
   m_Layer: 0
   m_Name: Sector
   m_TagString: Untagged
@@ -93,21 +94,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &-7830357472719070187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5181202095264500402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d86e6f876cf6647ad0b24b7f8920fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SectorData
-  _type: 1
-  _state: 0
-  tmp: {fileID: 0}
 --- !u!61 &4871552214281788252
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -154,3 +140,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 16.72, y: 9.41}
   m_EdgeRadius: 0
+--- !u!114 &-7830357472719070187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5181202095264500402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d86e6f876cf6647ad0b24b7f8920fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SectorData
+  _type: 1
+  _state: 0
+--- !u!114 &2471798938059165571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5181202095264500402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9044ce7e107c20d479139c6267beb628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeleteProtocol
+  _state: 0
+  _stayDuration: 0

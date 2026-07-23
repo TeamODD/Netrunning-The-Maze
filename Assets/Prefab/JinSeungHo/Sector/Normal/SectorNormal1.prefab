@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 369310292964282957}
   - component: {fileID: -7830357472719070187}
   - component: {fileID: 7926374481254145817}
+  - component: {fileID: -6498305017549733884}
   m_Layer: 0
   m_Name: SectorNormal1
   m_TagString: Untagged
@@ -107,7 +108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SectorData
   _type: 1
   _state: 0
-  tmp: {fileID: 0}
 --- !u!61 &7926374481254145817
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -154,3 +154,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 16.72, y: 9.41}
   m_EdgeRadius: 0
+--- !u!114 &-6498305017549733884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5181202095264500402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9044ce7e107c20d479139c6267beb628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeleteProtocol
+  _state: 0
+  _stayDuration: 0

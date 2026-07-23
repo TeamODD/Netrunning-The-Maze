@@ -25,9 +25,6 @@ public class SectorData : MonoBehaviour
     private SectorState _state;
     public SectorState State => _state;
 
-    [Header("테스트 전용 변수"), SerializeField]
-    private TextMeshProUGUI tmp;
-
     private Vector2Int _sectorPosition;
     public Vector2Int SectorPosition => _sectorPosition;
 
@@ -37,13 +34,11 @@ public class SectorData : MonoBehaviour
     private bool _isVisited;
     public bool IsVisited => _isVisited;
 
-    private bool _isCleared;
-    public bool IsCleared => _isCleared;
+    private bool _isBossCleared;
+    public bool IsBossCleared => _isBossCleared;
 
     private bool _isDeleteProtocolOn;
     private bool IsDeleteProtocolOn => _isDeleteProtocolOn;
-
-    private float _stayDuration;
 
     private List<GameObject> _aliveEnemyList = new List<GameObject>();
     private List<GameObject> AliveEnemyList => _aliveEnemyList;
@@ -57,10 +52,8 @@ public class SectorData : MonoBehaviour
         _seed = Random.Range(0, MAX_SEED_VALUE);
 
         _isVisited = false;
-        _isCleared = false;
+        _isBossCleared = false;
         _isDeleteProtocolOn = false;
-
-        _stayDuration = 0;
     }
 
     /// <summary>
