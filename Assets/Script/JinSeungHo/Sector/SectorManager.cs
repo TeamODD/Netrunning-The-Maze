@@ -49,7 +49,7 @@ public class SectorManager : MonoBehaviour
         _currStayDuration = 0;
         
         // 좌표 확인 주기는 0.1f초 마다 수행
-        if(_checkingInterval < 0.1f)  _checkingInterval = 0.1f;
+        if(_checkingInterval < 0.05f)  _checkingInterval = 0.05f;
 
         StartCoroutine(Co_CheckPlayerSectorPosition());
     }
@@ -74,11 +74,16 @@ public class SectorManager : MonoBehaviour
             int px = Mathf.RoundToInt(_player.transform.position.x / SectorData.WIDTH);
             int py = Mathf.RoundToInt(_player.transform.position.y / SectorData.HEIGHT);
 
-            _currPlayerPos = new Vector2Int(px, py);
+            Vector2Int newPos = new Vector2Int(px, py);
 
-            _currSectorDeleteProtocol = _sectorMap[_currPlayerPos].GetComponent<DeleteProtocol>();
-
-            _currStayDuration = _currSectorDeleteProtocol.StayDuration;
+            if(newPos != _currPlayerPos)
+            {
+                _currPlayerPos = newPos;
+                _sectorSpawner.SpawnNextSector(newPos, _sectorMap);
+             
+                _currSectorDeleteProtocol = _sectorMap[_currPlayerPos].GetComponent<DeleteProtocol>();
+                _currStayDuration = _currSectorDeleteProtocol.StayDuration;
+            }
 
             yield return delay;
         }

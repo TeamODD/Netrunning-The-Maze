@@ -185,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SectorManager
   _sectorSpawner: {fileID: 26986028}
   _currPlayerPos: {x: 0, y: 0}
+  _checkingInterval: 0.1
 --- !u!1 &808844906
 GameObject:
   m_ObjectHideFlags: 0
