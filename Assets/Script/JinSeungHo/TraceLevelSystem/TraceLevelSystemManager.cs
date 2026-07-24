@@ -17,7 +17,7 @@ public class TraceLevelSystemManager : MonoBehaviour
 
     [Header("현재 주는 데미지 증가량"), SerializeField]
     private float _currTotalDamageMod;
-    public float CurrTotalDamageMod => CurrTotalDamageMod;
+    public float CurrTotalDamageMod => _currTotalDamageMod;
     
     [Header("현재 적 최대 체력 증가량"), SerializeField]
     private float _currEnemyMaxhpMod;
