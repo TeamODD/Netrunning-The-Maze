@@ -6,6 +6,8 @@ public class SectorManager : MonoBehaviour
 {
     public static SectorManager Instance;
 
+    private const int INACTIVE_DISTANCE = 3;
+
     [Header("섹터 스포너"), SerializeField]
     private SectorSpawn _sectorSpawner;
 
@@ -64,6 +66,36 @@ public class SectorManager : MonoBehaviour
         // 플레이어에게 입힐 퍼센트 데미지 비례 양을 계산 후 플레이어 HP에 반영
     }
 
+    private void UpdateSectorState()
+    {
+        for(int x = -INACTIVE_DISTANCE; x <= INACTIVE_DISTANCE; ++x)
+        {
+            for(int y = -INACTIVE_DISTANCE; y <= INACTIVE_DISTANCE; ++y)
+            {
+                Vector2Int secPos
+                    = new Vector2Int(_currPlayerPos.x + x, _currPlayerPos.y + y);
+                
+                if(_sectorMap.TryGetValue(secPos, out GameObject go))
+                {
+                    SectorData data = go.GetComponent<SectorData>();
+
+                    int distance = Mathf.Abs(x) + Mathf.Abs(y);
+
+                    if(distance > INACTIVE_DISTANCE)
+                    {
+                        data.ChangeState(SectorState.Inactive);
+                        go.SetActive(false);
+                    }
+                    else
+                    {
+                        data.ChangeState(SectorState.Active);
+                        go.SetActive(true);
+                    }
+                }
+            }
+        }
+    }
+
     private IEnumerator Co_CheckPlayerSectorPosition()
     {
         WaitForSeconds delay = new WaitForSeconds(_checkingInterval);
@@ -83,6 +115,8 @@ public class SectorManager : MonoBehaviour
              
                 _currSectorDeleteProtocol = _sectorMap[_currPlayerPos].GetComponent<DeleteProtocol>();
                 _currStayDuration = _currSectorDeleteProtocol.StayDuration;
+                
+                UpdateSectorState();
             }
 
             yield return delay;
