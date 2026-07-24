@@ -30,15 +30,6 @@ public class SectorData : MonoBehaviour
     private int _seed;
     public int SectorSeed => _seed;
 
-    private bool _isVisited;
-    public bool IsVisited => _isVisited;
-
-    private bool _isBossCleared;
-    public bool IsBossCleared => _isBossCleared;
-
-    private bool _isDeleteProtocolOn;
-    private bool IsDeleteProtocolOn => _isDeleteProtocolOn;
-
     private List<GameObject> _aliveEnemyList = new List<GameObject>();
     private List<GameObject> AliveEnemyList => _aliveEnemyList;
 
@@ -49,10 +40,6 @@ public class SectorData : MonoBehaviour
         _sectorPosition = currPos;
 
         _seed = Random.Range(0, MAX_SEED_VALUE);
-
-        _isVisited = false;
-        _isBossCleared = false;
-        _isDeleteProtocolOn = false;
     }
 
     /// <summary>
