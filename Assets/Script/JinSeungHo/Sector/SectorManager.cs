@@ -81,7 +81,7 @@ public class SectorManager : MonoBehaviour
 
                     int distance = Mathf.Abs(x) + Mathf.Abs(y);
 
-                    if(distance > INACTIVE_DISTANCE)
+                    if(distance > INACTIVE_DISTANCE - 1)
                     {
                         data.ChangeState(SectorState.Inactive);
                         go.SetActive(false);
