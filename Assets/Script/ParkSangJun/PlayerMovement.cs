@@ -3,13 +3,13 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("이동 및 점프 설정")]
-    [SerializeField] private float moveSpeed = 8f;
-    [SerializeField] private float jumpForce = 12f;
+    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float jumpForce = 5f;
 
     [Header("대시 설정")]
-    [SerializeField] private float dashSpeed = 20f;      // 대시할 때 속도
+    [SerializeField] private float dashSpeed = 8f;      // 대시할 때 속도
     [SerializeField] private float dashDuration = 0.2f;  // 대시 지속 시간
-    [SerializeField] private float dashCooldown = 1f;    // 대시 재사용 대기시간
+    [SerializeField] private float dashCooldown = 5f;    // 대시 재사용 대기시간
 
     [Header("바닥 감지 설정")]
     [SerializeField] private Transform groundCheck;      // 바닥 감지 위치
