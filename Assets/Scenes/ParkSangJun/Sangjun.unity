@@ -2359,6 +2359,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 4
   jumpForce: 5
+  dashSpeed: 6
+  dashDuration: 0.2
+  dashCooldown: 0.5
   groundCheck: {fileID: 352261420}
   checkRadius: 0.2
   groundLayer:
