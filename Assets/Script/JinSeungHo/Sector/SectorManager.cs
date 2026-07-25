@@ -50,7 +50,7 @@ public class SectorManager : MonoBehaviour
 
         _currStayDuration = 0;
         
-        // 좌표 확인 주기는 0.1f초 마다 수행
+        // 좌표 확인 주기는 최소 0.05초 마다 수행
         if(_checkingInterval < 0.05f)  _checkingInterval = 0.05f;
 
         StartCoroutine(Co_CheckPlayerSectorPosition());
