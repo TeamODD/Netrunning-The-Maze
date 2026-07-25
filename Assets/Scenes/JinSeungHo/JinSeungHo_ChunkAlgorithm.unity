@@ -170,7 +170,6 @@ MonoBehaviour:
   - {fileID: 5181202095264500402, guid: 53f6343a99815c6479efa97fa42efdd6, type: 3}
   - {fileID: 5181202095264500402, guid: 9aedd11f667504c419597a3bfad17407, type: 3}
   - {fileID: 5181202095264500402, guid: 3e12f660dad72c34b83e198ae33dd91e, type: 3}
-  - {fileID: 5181202095264500402, guid: 7389ba0fe35c52841a7b5d91f4658926, type: 3}
   _adminSectorPrefab: []
   _stableSectorPrefab: []
 --- !u!114 &26986029
