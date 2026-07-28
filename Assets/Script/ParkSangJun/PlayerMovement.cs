@@ -5,26 +5,32 @@ public class PlayerMovement : MonoBehaviour
     [Header("이동 및 점프 설정")]
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float jumpBufferTime = 0.15f; // 점프 입력을 기억해 줄 시간
+
+    [Header("조작감 개선 설정")]
+    [SerializeField] private float jumpBufferTime = 0.1f; // 착지 직전 점프 예약 시간
+    [SerializeField] private float coyoteTime = 0.1f;     // 절벽에서 떨어진 후 점프 허용 시간
 
     [Header("대시 설정")]
     [SerializeField] private float dashSpeed = 8f;      // 대시할 때 속도
     [SerializeField] private float dashDuration = 0.2f;  // 대시 지속 시간
-    [SerializeField] private float dashCooldown = 5f;    // 대시 재사용 대기시간
+    [SerializeField] private float dashCooldown = 0.5f;    // 대시 재사용 대기시간
 
     [Header("바닥 감지 설정")]
     [SerializeField] private Transform groundCheck;      // 바닥 감지 위치
-    [SerializeField] private float checkRadius = 0.2f;   // 감지 범위 크기
+    [SerializeField] private float checkRadius = 0.1f;   // 감지 범위 크기
     [SerializeField] private LayerMask groundLayer;      // 바닥으로 인식할 레이어
 
     private Rigidbody2D rb;
     private float horizontalInput;
     private bool isGrounded;
-    private float jumpBufferCounter; // 남아있는 버퍼 타이머
 
     private bool isDashing;
     private bool canDash = true;
     private float facingDirection = 1f;
+
+    // 타이머 변수
+    private float jumpBufferCounter;
+    private float coyoteTimeCounter;
 
     private void Awake()
     {
@@ -46,28 +52,45 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(facingDirection, transform.localScale.y, transform.localScale.z);
         }
 
-        // 바닥에 닿아있는지 체크 (발바닥 위치 원 범위 안에 groundLayer가 있는지)
+        #region 점프 로직
+
+        // 1. 바닥 감지
         if (groundCheck != null)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
         }
 
-        // 점프 키를 누르면 점프버퍼 카운터 충전
+        // 2. 코요테 타임 타이머 제어
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime; // 땅에 있을 땐 계속 최대 시간으로 충전
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime; // 공중에 뜨면 카운트다운 시작
+        }
+
+        // 3. 점프 입력 버퍼 타이머 제어
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpBufferCounter = jumpBufferTime;
         }
         else
         {
-            jumpBufferCounter -= Time.deltaTime; // 시간에 따라 타이머 차감
+            jumpBufferCounter -= Time.deltaTime;
         }
 
-        // "땅에 닿아있고" + "기억해 둔 점프 요청(타이머)이 아직 남아있다면" 점프 실행!
-        if (jumpBufferCounter > 0f && isGrounded)
+        // 4. 점프 버퍼, 코요테 타임 조건을 만족하면 점프
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            jumpBufferCounter = 0f; // 점프했으니 버퍼 사용 완료 처리
+
+            // 점프를 썼으니 두 타이머 모두 0으로 초기화 (공중 연속 점프 방지)
+            jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
         }
+
+        #endregion
 
         // 대시 입력 (LeftShift 키)
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)

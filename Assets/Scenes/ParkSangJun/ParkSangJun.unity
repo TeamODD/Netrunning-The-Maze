@@ -2034,18 +2034,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3798180389272093489, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4780354035257463257, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4780354035257463257, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4780354035257463257, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.65
@@ -2086,37 +2074,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7625234070614556790, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: checkRadius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7625234070614556790, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: jumpBufferTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8856042958220557717, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8856042958220557717, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8881477623092437247, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_Size.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8881477623092437247, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      propertyPath: m_Size.y
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3012327771781547427, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1684580577}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
 --- !u!1 &1101269004
 GameObject:
@@ -3003,30 +2964,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &1684580571 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3012327771781547427, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
-  m_PrefabInstance: {fileID: 1046671716}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1684580577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684580571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79e2313b69826af42bb40f6985e81133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  attackDamage: 10
-  attackCooldown: 0.5
-  boxSize: {x: 0.75, y: 0.5}
-  xOffset: 0.375
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!1 &1740485761
 GameObject:
   m_ObjectHideFlags: 0
