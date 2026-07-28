@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("이동 및 점프 설정")]
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float jumpBufferTime = 0.15f; // 점프 입력을 기억해 줄 시간
 
     [Header("대시 설정")]
     [SerializeField] private float dashSpeed = 8f;      // 대시할 때 속도
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float horizontalInput;
     private bool isGrounded;
+    private float jumpBufferCounter; // 남아있는 버퍼 타이머
 
     private bool isDashing;
     private bool canDash = true;
@@ -50,10 +52,21 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
         }
 
-        // 점프 입력 (Space 키를 누르는 순간 + 바닥에 발이 닿아있을 때만)
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        // 점프 키를 누르면 점프버퍼 카운터 충전
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime; // 시간에 따라 타이머 차감
+        }
+
+        // "땅에 닿아있고" + "기억해 둔 점프 요청(타이머)이 아직 남아있다면" 점프 실행!
+        if (jumpBufferCounter > 0f && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpBufferCounter = 0f; // 점프했으니 버퍼 사용 완료 처리
         }
 
         // 대시 입력 (LeftShift 키)
