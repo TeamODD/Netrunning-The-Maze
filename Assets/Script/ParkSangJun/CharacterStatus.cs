@@ -23,7 +23,7 @@ public class CharacterStatus : MonoBehaviour
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp); // 체력이 0 미만으로 떨어지지 않게 제한
 
-        Debug.Log($"{gameObject.name}이(가) {damage}의 데미지를 입었습니다. (남은 체력: {currentHp}/{maxHp})");
+        Debug.Log($"{gameObject.name}에게 {damage}데미지 (남은 체력: {currentHp}/{maxHp})");
 
         // 체력이 0 이하가 되면 사망 처리
         if (currentHp <= 0f)

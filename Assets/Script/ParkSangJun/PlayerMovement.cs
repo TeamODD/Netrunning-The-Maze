@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isDashing;
     private bool canDash = true;
-    private float dashDirection = 1f;
+    private float facingDirection = 1f;
 
     private void Awake()
     {
@@ -37,10 +37,11 @@ public class PlayerMovement : MonoBehaviour
         // 좌/우 방향키 및 A/D 입력 받기 (-1.0 ~ 1.0)
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // 입력이 있을 때 마지막으로 이동하려던 방향 기록 (대시 방향 결정용)
+        // 입력이 있을 때 캐릭터 바라보는 방향 설정
         if (horizontalInput != 0)
         {
-            dashDirection = Mathf.Sign(horizontalInput);
+            facingDirection = Mathf.Sign(horizontalInput);
+            transform.localScale = new Vector3(facingDirection, transform.localScale.y, transform.localScale.z);
         }
 
         // 바닥에 닿아있는지 체크 (발바닥 위치 원 범위 안에 groundLayer가 있는지)
@@ -68,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         // 대시 중일 때: 바라보던 방향으로 대시 속도 적용
         if (isDashing)
         {
-            rb.linearVelocity = new Vector2(dashDirection * dashSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(facingDirection * dashSpeed, rb.linearVelocity.y);
             return;
         }
 

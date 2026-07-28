@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1824565990649837133}
   - component: {fileID: 4765704983224839331}
   - component: {fileID: 4467010037709609818}
-  - component: {fileID: 1317889283974101580}
+  - component: {fileID: 435659875993163774}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -108,7 +108,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1317889283974101580
+--- !u!114 &435659875993163774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,9 +117,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 952048935388820330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f562c20b16314914ba55e903cd4e9b5d, type: 3}
+  m_Script: {fileID: 11500000, guid: f4df0c8c6761f8f48a1d508e72fc7607, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterStatus
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   maxHp: 100
 --- !u!1 &985639716269292349
 GameObject:
