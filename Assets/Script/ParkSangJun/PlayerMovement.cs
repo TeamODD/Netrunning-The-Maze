@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(facingDirection, transform.localScale.y, transform.localScale.z);
         }
 
+        // ---------------------------------------------------
         #region 점프 로직
 
         // 1. 바닥 감지
@@ -91,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         #endregion
+        // ---------------------------------------------------
 
         // 대시 입력 (LeftShift 키)
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
@@ -117,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (groundCheck != null)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
         }
     }
