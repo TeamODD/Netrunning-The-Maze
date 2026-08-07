@@ -507,8 +507,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1958323675}
   - component: {fileID: 1958323676}
+  - component: {fileID: 1958323677}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: EnemySpawnManager
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -545,6 +546,19 @@ MonoBehaviour:
   - {fileID: 3803068294732557162, guid: 97a4e8b47082a124ba12571c61542f4c, type: 3}
   _droneEnemy:
   - {fileID: 6752452307423569460, guid: 4a7a139f19db4ad4ca11e5285f3914bf, type: 3}
+--- !u!114 &1958323677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958323674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ae6c64c1e888c4c96d37bf0fd45503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  _enemyList: {fileID: 1958323676}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
