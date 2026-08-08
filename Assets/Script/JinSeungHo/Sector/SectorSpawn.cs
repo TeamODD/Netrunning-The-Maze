@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,11 @@ public class SectorSpawn : MonoBehaviour
         Vector2Int.left,      // 좌
         Vector2Int.right        // 우
     };
+
+    /// <summary>
+    /// 섹터 생성시 SectorData를 전달해 섹터 내부 적 스폰을 하도록 함
+    /// </summary>
+    public static event Action<SectorData> OnSectorSpawned;
 
     [Header("생성할 시작 섹터 프리팹"), SerializeField]   
     private GameObject[] _startSectorPrefab;
@@ -61,7 +67,7 @@ public class SectorSpawn : MonoBehaviour
                 Vector3 spawnPos = new Vector3(nextSectorPos.x * SectorData.WIDTH,
                                                nextSectorPos.y * SectorData.HEIGHT);
 
-                int rand = Random.Range(0, _normalSectorPrefab.Length);
+                int rand = UnityEngine.Random.Range(0, _normalSectorPrefab.Length);
 
                 GameObject sectorObj = Instantiate(_normalSectorPrefab[rand],
                                         spawnPos, Quaternion.identity);
@@ -70,6 +76,8 @@ public class SectorSpawn : MonoBehaviour
                 data.Init(nextSectorPos);
 
                 sectorMap[nextSectorPos] = sectorObj;
+
+                OnSectorSpawned?.Invoke(data);
             }
         }
     }

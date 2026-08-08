@@ -42,7 +42,10 @@ public class SectorManager : MonoBehaviour
         _currPlayerPos = new Vector2Int(0, 0);
 
         if(_sectorSpawner == null)  _sectorSpawner = GetComponent<SectorSpawn>();
+    }
 
+    private void Start()
+    {
         _sectorSpawner.SpawnStartSector(_sectorMap);
         _sectorSpawner.SpawnNextSector(_currPlayerPos, _sectorMap);
 
@@ -53,7 +56,7 @@ public class SectorManager : MonoBehaviour
         // 좌표 확인 주기는 최소 0.05초 마다 수행
         if(_checkingInterval < 0.05f)  _checkingInterval = 0.05f;
 
-        StartCoroutine(Co_CheckPlayerSectorPosition());
+        StartCoroutine(Co_CheckPlayerSectorPosition());   
     }
 
     private void Update()
