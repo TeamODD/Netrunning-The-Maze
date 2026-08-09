@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[CreateAssetMenu(fileName = "NewInfiltrationModuleData", menuName = "Infiltration/Module Data", order = 0)]
 public class InfiltrationModuleData : ScriptableObject
 {
     [Header("ID"), SerializeField]

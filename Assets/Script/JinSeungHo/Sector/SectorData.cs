@@ -47,4 +47,10 @@ public class SectorData : MonoBehaviour
     /// </summary>
     /// <param name="state">변환할 섹터 상태</param>
     public void ChangeState(SectorState state) => _state = state;
+
+    public void AddEnemy(GameObject enemy)
+    {
+        if(enemy != null && !_aliveEnemyList.Contains(enemy))
+            _aliveEnemyList.Add(enemy);
+    }
 }
