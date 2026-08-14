@@ -43,26 +43,26 @@ public class InfiltrationModule : MonoBehaviour
     /// <returns></returns>
     public float GetModuleStat(ModuleEffectType met)
     {
-        if(met == ModuleEffectType.AttackPower)
-            return ATTACKPOWER_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.AttackPower];
+        if(met == ModuleEffectType.Amplification)
+            return ATTACKPOWER_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.Amplification];
         
-        else if(met == ModuleEffectType.AttackSpeed)
-            return ATTACKSPEED_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.AttackSpeed];
+        else if(met == ModuleEffectType.LightSpeed)
+            return ATTACKSPEED_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.LightSpeed];
         
-        else if(met == ModuleEffectType.MaxHPIncrease)
-            return MAXHPINCREASE_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.MaxHPIncrease];
+        else if(met == ModuleEffectType.Stability)
+            return MAXHPINCREASE_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.Stability];
         
-        else if(met == ModuleEffectType.CriticalChance)
-            return 1 - Mathf.Pow(0.9f, _moduleStack[(int)ModuleEffectType.CriticalChance]);
+        else if(met == ModuleEffectType.Critical)
+            return 1 - Mathf.Pow(0.9f, _moduleStack[(int)ModuleEffectType.Critical]);
 
-        else if(met == ModuleEffectType.DashAttackPower) 
-            return DASHATTACKPOWER_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.DashAttackPower];
+        else if(met == ModuleEffectType.Breakthrough) 
+            return DASHATTACKPOWER_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.Breakthrough];
         
-        else if(met == ModuleEffectType.LifeSteal)
-            return LIFESTEAL_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.LifeSteal];
+        else if(met == ModuleEffectType.Absorption)
+            return LIFESTEAL_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.Absorption];
         
-        else if(met == ModuleEffectType.Berserk)
-            return BERSERK_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.Berserk];
+        else if(met == ModuleEffectType.Rampage)
+            return BERSERK_INCREASE_PER_STACK * _moduleStack[(int)ModuleEffectType.Rampage];
 
         else return -1;
     }
