@@ -1,12 +1,12 @@
 public enum ModuleEffectType
 {
-    None = 0,
+    None = -1,
 
-    AttackPower,        // 증폭
-    AttackSpeed,        // 광속
-    DashCooldown,       // 안정
-    CriticalChance,     // 치명
-    ArmorPenetration,   // 돌파
-    LifeSteal,          // 흡수
-    Berserk             // 폭주
+    AttackPower = 0,        // 증폭
+    AttackSpeed = 1,        // 광속
+    MaxHPIncrease = 2,       // 안정
+    CriticalChance = 3,     // 치명
+    DashAttackPower = 4,   // 돌파
+    LifeSteal = 5,          // 흡수
+    Berserk = 6             // 폭주
 }
