@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,7 +21,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float checkRadius = 0.1f;   // 감지 범위 크기
     [SerializeField] private LayerMask groundLayer;      // 바닥으로 인식할 레이어
 
+    [Header("공격 설정")]
+    [SerializeField] private float attackDuration = 0.4f; // 공격 모션 길이
+    [SerializeField] private float attackCooldown = 0.5f;  // 공격 쿨타임
+    private bool isAttacking = false;                      // 공격 중 플래그
+    private bool canAttack = true;
+
     private Rigidbody2D rb;
+    private Animator anim;
+
     private float horizontalInput;
     private bool isGrounded;
 
@@ -35,12 +44,49 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
     {
-        // 대시 중일 때는 이동 및 점프 입력 무시
-        if (isDashing) return;
+        // 바닥 감지
+        if (groundCheck != null)
+        {
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
+        }
+
+        // 조작 입력 받기 및 이동 제한 처리
+        if (isDashing || isAttacking)
+        {
+            // 공격/대시 중일 때는 입력을 0으로 강제해서 미끄러짐 방지
+            horizontalInput = 0f;
+        }
+        else
+        {
+            // 평상시 좌/우 입력 받기
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+
+            // 바라보는 방향 설정
+            if (horizontalInput != 0)
+            {
+                facingDirection = Mathf.Sign(horizontalInput);
+                transform.localScale = new Vector3(facingDirection, transform.localScale.y, transform.localScale.z);
+            }
+        }
+
+        // 애니메이터 파라미터 갱신
+        bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
+        UpdateAnimationParameters(isMoving);
+
+        // 대시 중이거나 공격 중이면 아래의 점프/공격 입력 로직 무시
+        if (isDashing || isAttacking) return;
+
+        // 공격 입력
+        if (Input.GetMouseButtonDown(0) && canAttack)
+        {
+            StartCoroutine(AttackRoutine());
+            return; // 공격 시작 프레임에는 이동/점프 입력 건너뜀
+        }
 
         // 좌/우 방향키 및 A/D 입력 받기 (-1.0 ~ 1.0)
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -114,6 +160,17 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
+    // 애니메이터 파라미터 안전하게 넘겨주기
+    private void UpdateAnimationParameters(bool isMoving)
+    {
+        if (anim != null)
+        {
+            anim.SetBool("isGrounded", isGrounded);
+            anim.SetBool("isMoving", isMoving);
+            anim.SetBool("isAttacking", isAttacking);
+        }
+    }
+
     // 에디터 씬 뷰에서 바닥 감지 범위를 빨간색 원으로 그려주는 용도
     private void OnDrawGizmosSelected()
     {
@@ -125,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // 대시 처리 코루틴 (시간 제어용)
-    private System.Collections.IEnumerator DashRoutine()
+    private IEnumerator DashRoutine()
     {
         canDash = false;
         isDashing = true;
@@ -137,5 +194,30 @@ public class PlayerMovement : MonoBehaviour
         // 쿨타임 대기 후 다음 대시 가능 상태로 변경
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+    }
+
+    // 공격 처리 코루틴
+    private IEnumerator AttackRoutine()
+    {
+        canAttack = false;
+        isAttacking = true;
+
+        // 공격 애니메이션 발동
+        if (anim != null)
+        {
+            anim.SetTrigger("Attack");
+        }
+
+        // 공격 모션이 끝날 때까지 대기 (입력 잠금)
+        yield return new WaitForSeconds(attackDuration);
+        isAttacking = false;
+
+        // 쿨타임 대기 후 다음 공격 가능
+        float remainingCooldown = Mathf.Max(0f, attackCooldown - attackDuration);
+        if (remainingCooldown > 0f)
+        {
+            yield return new WaitForSeconds(remainingCooldown);
+        }
+        canAttack = true;
     }
 }

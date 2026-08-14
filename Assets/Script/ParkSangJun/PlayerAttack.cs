@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private Animator anim;
+
     [Header("공격 설정")]
     [SerializeField] private float attackDamage = 10f;    // 공격력
     [SerializeField] private float attackCooldown = 0.5f; // 공격 쿨타임 (초)
@@ -12,6 +14,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;                    // 타격할 적 레이어
 
     private float nextAttackTime = 0f; // 다음 공격이 가능한 시간
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
 
     private void Update()
     {
@@ -26,6 +33,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
+        // 공격 애니메이션 트리거 발동
+        if (anim != null)
+        {
+            anim.SetTrigger("Attack");
+        }
+
         // 1. 플레이어가 바라보는 방향 계산 (캐릭터의 scale X값 부호를 활용)
         float facingDirection = Mathf.Sign(transform.localScale.x);
 
