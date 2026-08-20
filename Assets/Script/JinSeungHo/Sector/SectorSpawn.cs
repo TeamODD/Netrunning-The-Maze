@@ -17,6 +17,8 @@ public class SectorSpawn : MonoBehaviour
     /// </summary>
     public static event Action<SectorData> OnSectorSpawned;
 
+    
+
     [Header("생성할 시작 섹터 프리팹"), SerializeField]   
     private GameObject[] _startSectorPrefab;
     
