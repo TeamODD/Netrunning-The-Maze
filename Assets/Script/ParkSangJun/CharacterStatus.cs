@@ -9,9 +9,12 @@ public class CharacterStatus : MonoBehaviour
     public float CurrentHp => currentHp;           // 외부 읽기용 프로퍼티
     public float MaxHp => maxHp;
 
+    private PlayerMovement playerMovement;
+
     protected virtual void Awake()
     {
         currentHp = maxHp; // 게임 시작 시 현재 체력을 최대 체력으로 초기화
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     // 데미지를 받는 공통 피격 함수
@@ -19,6 +22,9 @@ public class CharacterStatus : MonoBehaviour
     {
         // 이미 죽어있는 상태라면 추가 피격 무시
         if (currentHp <= 0f) return;
+
+        // 대시 중(무적 상태)이라면 데미지 무시하고 리턴
+        if (playerMovement.isInvincible) return;
 
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp); // 체력이 0 미만으로 떨어지지 않게 제한

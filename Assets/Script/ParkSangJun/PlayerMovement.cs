@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isAttacking = false;                      // 공격 중 플래그
     private bool canAttack = true;
 
+    [Header("상태 변수")]
+    public bool isInvincible = false; // 무적 변수
+
     private Rigidbody2D rb;
     private Animator anim;
 
@@ -186,9 +189,20 @@ public class PlayerMovement : MonoBehaviour
     {
         canDash = false;
         isDashing = true;
+        isInvincible = true;
+
+        // Player(6번)와 Enemy(7번) 레이어 간 충돌 무시 활성화
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
         // 대시 지속 시간만큼 대기 후 대시 종료
         yield return new WaitForSeconds(dashDuration);
+
+        // 충돌 무시 해제
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
+
+        isInvincible = false;
         isDashing = false;
 
         // 쿨타임 대기 후 다음 대시 가능 상태로 변경

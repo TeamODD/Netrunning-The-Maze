@@ -2701,6 +2701,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4765704983224839331, guid: aa7c292245f6d9e4eb8980efb9bfb84f, type: 3}
+      propertyPath: m_Constraints
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5664700938012712824, guid: aa7c292245f6d9e4eb8980efb9bfb84f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
