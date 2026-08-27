@@ -2112,6 +2112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7625234070614556790, guid: 5f4e50216397a394aacd24715fcde6c9, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 320
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2275,6 +2279,11 @@ MonoBehaviour:
   moveSpeed: 2
   roamDistance: 5
   detectDistance: 10
+  stopDistance: 2
+  deaggroDistance: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
   roamGizmoOffsetY: -0.75
 --- !u!1 &1380556102
 GameObject:
@@ -2570,7 +2579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1824565990649837133, guid: aa7c292245f6d9e4eb8980efb9bfb84f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.41
+      value: -8.83
       objectReference: {fileID: 0}
     - target: {fileID: 1824565990649837133, guid: aa7c292245f6d9e4eb8980efb9bfb84f, type: 3}
       propertyPath: m_LocalPosition.z
