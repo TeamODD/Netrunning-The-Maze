@@ -6,7 +6,7 @@ public class SectorManager : MonoBehaviour
 {
     public static SectorManager Instance;
 
-    private const int INACTIVE_DISTANCE = 3;
+    private const int INACTIVE_DISTANCE = 2;
 
     [Header("섹터 스포너"), SerializeField]
     private SectorSpawn _sectorSpawner;
@@ -59,7 +59,8 @@ public class SectorManager : MonoBehaviour
         // 좌표 확인 주기는 최소 0.05초 마다 수행
         if(_checkingInterval < 0.05f)  _checkingInterval = 0.05f;
 
-        StartCoroutine(Co_CheckPlayerSectorPosition());   
+        StartCoroutine(Co_CheckPlayerSectorPosition());
+        UpdateSectorState();
     }
 
     private void Update()
@@ -69,6 +70,10 @@ public class SectorManager : MonoBehaviour
         if (_currSectorDeleteProtocol != null)
         {
             _currSectorDeleteProtocol.ProtocolUpdate(_currStayDuration);
+        }
+        else
+        {
+            _currStayDuration = 0f;
         }
 
         // TODO: 여기서 나중에 GetPurgeDamagePercentage() 를 통해
@@ -112,8 +117,10 @@ public class SectorManager : MonoBehaviour
         {
             if(_player == null) break;
 
-            int px = Mathf.RoundToInt(_player.transform.position.x / SectorData.WIDTH);
-            int py = Mathf.RoundToInt(_player.transform.position.y / SectorData.HEIGHT);
+            int px = Mathf.FloorToInt( (_player.transform.position.x + SectorData.WIDTH / 2f)
+                                                / SectorData.WIDTH);
+            int py = Mathf.FloorToInt( (_player.transform.position.y + SectorData.HEIGHT / 2f)
+                                                / SectorData.HEIGHT);
 
             Vector2Int newPos = new Vector2Int(px, py);
 
