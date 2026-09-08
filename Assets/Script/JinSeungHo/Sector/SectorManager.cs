@@ -49,7 +49,10 @@ public class SectorManager : MonoBehaviour
         _sectorSpawner.SpawnStartSector(_sectorMap);
         _sectorSpawner.SpawnNextSector(_currPlayerPos, _sectorMap);
 
-        _currSectorDeleteProtocol = _sectorMap[_currPlayerPos].GetComponent<DeleteProtocol>();
+        if (_sectorMap.TryGetValue(_currPlayerPos, out GameObject playerSector) && playerSector != null)
+        {
+            _currSectorDeleteProtocol = playerSector.GetComponent<DeleteProtocol>();
+        }
 
         _currStayDuration = 0;
         
@@ -63,7 +66,10 @@ public class SectorManager : MonoBehaviour
     {
         // 프로토콜 시간 갱신
         _currStayDuration += Time.deltaTime;
-        _currSectorDeleteProtocol.ProtocolUpdate(_currStayDuration);
+        if (_currSectorDeleteProtocol != null)
+        {
+            _currSectorDeleteProtocol.ProtocolUpdate(_currStayDuration);
+        }
 
         // TODO: 여기서 나중에 GetPurgeDamagePercentage() 를 통해
         // 플레이어에게 입힐 퍼센트 데미지 비례 양을 계산 후 플레이어 HP에 반영
@@ -116,8 +122,14 @@ public class SectorManager : MonoBehaviour
                 _currPlayerPos = newPos;
                 _sectorSpawner.SpawnNextSector(newPos, _sectorMap);
              
-                _currSectorDeleteProtocol = _sectorMap[_currPlayerPos].GetComponent<DeleteProtocol>();
-                _currStayDuration = _currSectorDeleteProtocol.StayDuration;
+                if (_sectorMap.TryGetValue(_currPlayerPos, out GameObject newSector) && newSector != null)
+                {
+                    _currSectorDeleteProtocol = newSector.GetComponent<DeleteProtocol>();
+                    if (_currSectorDeleteProtocol != null)
+                    {
+                        _currStayDuration = _currSectorDeleteProtocol.StayDuration;
+                    }
+                }
                 
                 UpdateSectorState();
             }

@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
         SpawnEnemy(sd, spawnPoints.SpawnPoint, _spawnEnemyAmount);
     }
 
-    void Start()
+    void Awake()
     {
         if(Instance == null)    Instance = this;
         else                    Destroy(gameObject);
@@ -45,11 +45,25 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="amount">적 스폰량</param>
     public void SpawnEnemy(SectorData sd, Transform[] spawnPointList, int amount)
     {
-        // [0, 적 스폰 포인트 리스트 수] 만큼만 생성하게 함
-        amount = Mathf.Clamp(amount, 0, spawnPointList.Length);
+        if (spawnPointList == null || spawnPointList.Length == 0) return;
+        if (_enemyList == null || _enemyList.MeleeEnemy == null || _enemyList.MeleeEnemy.Length == 0) return;
 
-        List<Transform> tmpPoints = new List<Transform>(spawnPointList);
-        int tmpLength = tmpPoints.Count;
+        // null/미할당 요소를 제외하고 유효한 Transform만 수집
+        List<Transform> validPoints = new List<Transform>();
+        for (int i = 0; i < spawnPointList.Length; i++)
+        {
+            if (spawnPointList[i] != null)
+            {
+                validPoints.Add(spawnPointList[i]);
+            }
+        }
+
+        if (validPoints.Count == 0) return;
+
+        // [0, 유효 적 스폰 포인트 수] 만큼만 생성하게 함
+        amount = Mathf.Clamp(amount, 0, validPoints.Count);
+
+        int tmpLength = validPoints.Count;
 
         for(int i = 0; i < amount; ++i, --tmpLength)
         {
@@ -57,7 +71,9 @@ public class EnemySpawner : MonoBehaviour
 
             // test : 우선 근접 적만 출현하게 함
             GameObject enemy = _enemyList.MeleeEnemy[0];
-            GameObject spawn = Instantiate(enemy, tmpPoints[randIndex].position,
+            if (enemy == null) continue;
+
+            GameObject spawn = Instantiate(enemy, validPoints[randIndex].position,
                                Quaternion.identity, sd.GetComponent<Transform>());
 
             // 맵 크기를 (3, 3, 1) 생성해서 스폰된 적이 찌그러지는 문제 발생
@@ -75,8 +91,8 @@ public class EnemySpawner : MonoBehaviour
             // 생성된 적은 SectorData에 저장
             sd.AddEnemy(spawn); 
 
-            Transform last = tmpPoints[tmpLength - 1];
-            tmpPoints[randIndex] = last;
+            Transform last = validPoints[tmpLength - 1];
+            validPoints[randIndex] = last;
         }
     }
 

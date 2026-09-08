@@ -75,7 +75,7 @@ public class InfiltrationModule : MonoBehaviour
     /// <returns>스택 증감 성공/실패 여부 반환</returns>
     public bool UpdateModuleStack(ModuleEffectType met, int stack)
     {
-        if(_moduleStack[(int)met] - stack < 0f) return false;
+        if(_moduleStack[(int)met] + stack < 0f) return false;
 
         _moduleStack[(int)met] += stack;
 
