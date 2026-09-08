@@ -167,7 +167,7 @@ MonoBehaviour:
   _startSectorPrefab:
   - {fileID: 5181202095264500402, guid: 9aedd11f667504c419597a3bfad17407, type: 3}
   _normalSectorPrefab:
-  - {fileID: 5181202095264500402, guid: 53f6343a99815c6479efa97fa42efdd6, type: 3}
+  - {fileID: 8713063347808280115, guid: 9db8f264b705fc343a7b68d0ece91ea8, type: 3}
   - {fileID: 5181202095264500402, guid: 9aedd11f667504c419597a3bfad17407, type: 3}
   - {fileID: 5181202095264500402, guid: 3e12f660dad72c34b83e198ae33dd91e, type: 3}
   _adminSectorPrefab: []

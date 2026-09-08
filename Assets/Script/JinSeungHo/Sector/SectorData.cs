@@ -4,8 +4,8 @@ using UnityEngine;
 public class SectorData : MonoBehaviour
 {
     private const int MAX_SEED_VALUE = 100000000;
-    public const float WIDTH = 50;
-    public const float HEIGHT = 28;
+    public const float WIDTH = 51;
+    public const float HEIGHT = 30;
     
     /// <summary>
     /// 월드 상에서 현재 섹터의 상하좌우 출입구의 상대 좌표
