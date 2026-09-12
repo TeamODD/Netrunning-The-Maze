@@ -453,7 +453,7 @@ GameObject:
   - component: {fileID: 1034125214473880473}
   - component: {fileID: 2938519412359526358}
   - component: {fileID: 7693409384109759640}
-  - component: {fileID: 6802893091947777765}
+  - component: {fileID: 6193641846861334929}
   m_Layer: 0
   m_Name: Normal1
   m_TagString: Untagged
@@ -482,7 +482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.453627, y: -32.00876}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 17, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1034125214473880473
@@ -559,7 +559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeleteProtocol
   _state: 0
   _stayDuration: 0
---- !u!114 &6802893091947777765
+--- !u!114 &6193641846861334929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -568,71 +568,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 8713063347808280115}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2dd7316c5b5fba46ba980ec02eb8875, type: 3}
+  m_Script: {fileID: 11500000, guid: 7141d85f8711fe8428925a213a158cb9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPoint
-  _spawnPoint:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformGenerator
+  _platformPrefab: {fileID: 1062279427472550381, guid: 30e7ea4a60333194491d03ff8af96d83, type: 3}
+  _tiers:
+  - tierName: tier1
+    yOffset: -7.5
+    minPlatforms: 4
+    maxPlatforms: 6
+  - tierName: tier2
+    yOffset: -4.5
+    minPlatforms: 3
+    maxPlatforms: 5
+  - tierName: tier3
+    yOffset: -1.5
+    minPlatforms: 2
+    maxPlatforms: 5
+  - tierName: tier4
+    yOffset: 1.5
+    minPlatforms: 2
+    maxPlatforms: 5
+  - tierName: tier5
+    yOffset: 4.5
+    minPlatforms: 3
+    maxPlatforms: 5
+  - tierName: tier6
+    yOffset: 7.5
+    minPlatforms: 4
+    maxPlatforms: 6
+  _platformWidths:
+  - 6.4
+  - 8
+  - 10
+  - 12
+  _platformPadding: 4
+  _platformGap: 3
 --- !u!1001 &1711246321487952158
 PrefabInstance:
   m_ObjectHideFlags: 0
