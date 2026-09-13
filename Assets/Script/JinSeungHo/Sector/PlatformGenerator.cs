@@ -16,6 +16,9 @@ public class PlatformGenerator : MonoBehaviour
     [Header("플랫폼 프리팹")]
     [SerializeField] private GameObject _platformPrefab;
 
+    [Header("플랫폼 컨테이너")]
+    [SerializeField] private Transform _container;
+
     [Header("Tier 1 ~ Tier 6 층별 설정")]
     [SerializeField] private TierData[] _tiers;
 
@@ -33,11 +36,6 @@ public class PlatformGenerator : MonoBehaviour
     /// </summary>
     private List<GameObject> _spawnedPlatforms = new List<GameObject>();
     public IReadOnlyList<GameObject> SpawnedPlatforms => _spawnedPlatforms;
-
-    private void Start()
-    {
-        GeneratePlatforms();
-    }
 
     [ContextMenu("플랫폼 생성")]
     public void GeneratePlatforms()
@@ -115,7 +113,7 @@ public class PlatformGenerator : MonoBehaviour
     private void SpawnPlatform(float x, float y, float width)
     {
         Vector3 spawnPos = transform.position + new Vector3(x, y, 0);
-        GameObject platform = Instantiate(_platformPrefab, spawnPos, Quaternion.identity, transform);
+        GameObject platform = Instantiate(_platformPrefab, spawnPos, Quaternion.identity, _container);
 
         // width에 맞게 플랫폼 크기 조절
         SpriteRenderer sr = platform.GetComponent<SpriteRenderer>();

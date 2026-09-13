@@ -3,102 +3,134 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public static EnemySpawner Instance;
+    [Header("적 프리팹 목록")]
+    [SerializeField] private EnemyList _enemyList;
 
-    [SerializeField]
-    private EnemyList _enemyList;
+    [Header("소환된 적 컨테이너")]
+    [SerializeField] private Transform _container;
 
-    [Header("현재 적 스폰량"), SerializeField]
-    private int _spawnEnemyAmount;
+    [Header("이 섹터 기본 적 스폰량")]
+    [SerializeField] private int _spawnEnemyAmount = 6;
     public int SpawnEnemyAmount => _spawnEnemyAmount;
 
-    private void OnEnable()
+    [Header("스폰 시 발판 양 끝 안전 마진")]
+    [SerializeField] private float _edgeMargin = 1f;
+
+    [Header("발판 윗면 오프셋")]
+    [SerializeField] private float _spawnYOffset = 0.8f;
+
+    private SectorData _sectorData;
+
+    private void Awake()
     {
-        SectorSpawn.OnSectorSpawned += HandleSectorSpawned;
+        _sectorData = GetComponent<SectorData>();
+
+        if(_enemyList == null)  _enemyList = GetComponent<EnemyList>();
     }
 
-    private void OnDisable()
+    public void SpawnEnemies(IReadOnlyList<GameObject> platforms)
     {
-        SectorSpawn.OnSectorSpawned -= HandleSectorSpawned;
+        if(platforms == null || platforms.Count == 0)   return;
+        if(_enemyList == null || _enemyList.MeleeEnemy == null || _enemyList.MeleeEnemy.Length == 0)   return;
+
+        // 플랫폼들을 Y 좌표 기준으로 묶고 오름차순 정렬
+        List<List<GameObject>> tierGroups = GroupPlatformsByY(platforms);
+        if(tierGroups.Count == 0)   return;
+
+        int spawnedCount = 0;
+        int tierIndex = 0;
+        int maxAttempts = _spawnEnemyAmount * 5;
+        int currentAttempt = 0;
+
+        while (spawnedCount < _spawnEnemyAmount && currentAttempt < maxAttempts)
+        {
+            currentAttempt++;
+
+            List<GameObject> currentTier = tierGroups[tierIndex % tierGroups.Count];
+            tierIndex++;
+            
+            if (currentTier.Count == 0) continue;
+            
+            // 해당 층의 발판 중 랜덤 선택
+            GameObject platform = currentTier[Random.Range(0, currentTier.Count)];
+            if (platform == null) continue;
+            
+            Collider2D col = platform.GetComponent<Collider2D>();
+            if (col == null) continue;
+            
+            Bounds bounds = col.bounds;
+            
+            // 발판 좌우 끝에서 떨어지지 않게 20% 마진 확보
+            float margin = Mathf.Min(_edgeMargin, bounds.size.x * 0.2f);
+            float spawnX = Random.Range(bounds.min.x + margin, bounds.max.x - margin);
+
+            // 적의 스프라이트 높이
+            GameObject enemyPrefab = _enemyList.MeleeEnemy[0];
+            if (enemyPrefab == null) break;
+            
+            SpriteRenderer enemySr = enemyPrefab.GetComponent<SpriteRenderer>();
+            float enemyHalfHeight = (enemySr != null && enemySr.sprite != null) 
+                ? (enemySr.sprite.rect.height / enemySr.sprite.pixelsPerUnit) / 2f 
+                : 0.5f;
+            
+            // 발판의 윗면(bounds.max.y) + 적 절반 높이 = 발판 위에 안착
+            float spawnY = bounds.max.y + enemyHalfHeight;
+            Vector3 spawnPos = new Vector3(spawnX, spawnY, 0f);
+
+            // 부모 없이 월드에 1배 정상 크기로 먼저 소환
+            GameObject spawn = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            
+            // worldPositionStays: true 로 컨테이너에 넣으면,
+            // Unity가 부모의 RectTransform과 3배 스케일을 알아서 역산해 크기/위치를 완벽 고정
+            if (_container != null)
+            {
+                spawn.transform.SetParent(_container, true);
+            }
+            else if (_sectorData != null)
+            {
+                spawn.transform.SetParent(_sectorData.transform, true);
+            }
+            if (_sectorData != null)
+            {
+                _sectorData.AddEnemy(spawn);
+            }
+            spawnedCount++;
+        }
     }
 
-    private void HandleSectorSpawned(SectorData sd)
-    {
-        EnemySpawnPoint spawnPoints = sd.GetComponent<EnemySpawnPoint>();
-        if(spawnPoints == null) return;
-
-        SpawnEnemy(sd, spawnPoints.SpawnPoint, _spawnEnemyAmount);
-    }
-
-    void Awake()
-    {
-        if(Instance == null)    Instance = this;
-        else                    Destroy(gameObject);
-
-        if(_enemyList == null)   _enemyList = GetComponent<EnemyList>();
-    }
 
     /// <summary>
-    /// 적 스폰 포인트 리스트 중 스폰량만큼 적을 생성함
+    /// 플랫폼 목록을 Y 좌표 기준으로 묶음
     /// </summary>
-    /// <param name="spawnPointList">적 스폰 포인트 리스트</param>
-    /// <param name="amount">적 스폰량</param>
-    public void SpawnEnemy(SectorData sd, Transform[] spawnPointList, int amount)
+    private List<List<GameObject>> GroupPlatformsByY(IReadOnlyList<GameObject> platforms)
     {
-        if (spawnPointList == null || spawnPointList.Length == 0) return;
-        if (_enemyList == null || _enemyList.MeleeEnemy == null || _enemyList.MeleeEnemy.Length == 0) return;
+        var groups = new List<List<GameObject>>();
+        float threshold = 1.5f;
 
-        // null/미할당 요소를 제외하고 유효한 Transform만 수집
-        List<Transform> validPoints = new List<Transform>();
-        for (int i = 0; i < spawnPointList.Length; i++)
+        foreach(var p in platforms)
         {
-            if (spawnPointList[i] != null)
+            if(p == null) continue;
+            float py = p.transform.position.y;
+
+            bool added = false;
+            foreach(var g in groups)
             {
-                validPoints.Add(spawnPointList[i]);
+                if(Mathf.Abs(g[0].transform.position.y - py) < threshold)
+                {
+                    g.Add(p);
+                    added = true;
+                    break;
+                }
+            }
+
+            if(!added)
+            {
+                groups.Add(new List<GameObject> { p });
             }
         }
 
-        if (validPoints.Count == 0) return;
-
-        // [0, 유효 적 스폰 포인트 수] 만큼만 생성하게 함
-        amount = Mathf.Clamp(amount, 0, validPoints.Count);
-
-        int tmpLength = validPoints.Count;
-
-        for(int i = 0; i < amount; ++i, --tmpLength)
-        {
-            int randIndex = Random.Range(0, tmpLength);
-
-            // test : 우선 근접 적만 출현하게 함
-            GameObject enemy = _enemyList.MeleeEnemy[0];
-            if (enemy == null) continue;
-
-            GameObject spawn = Instantiate(enemy, validPoints[randIndex].position,
-                               Quaternion.identity, sd.GetComponent<Transform>());
-
-            // 맵 크기를 (3, 3, 1) 생성해서 스폰된 적이 찌그러지는 문제 발생
-            // TODO: 맵 크기를 (1, 1, 1)로 수정하거나, 카메라 크기를 줄이거나 해야 할 듯
-            Vector3 parentScale = sd.transform.localScale;
-            Vector3 originalScale = enemy.transform.localScale;
-
-            spawn.transform.localScale = new Vector3(
-                originalScale.x / parentScale.x,
-                originalScale.y / parentScale.y,
-                originalScale.z / parentScale.z
-            );
-
-
-            // 생성된 적은 SectorData에 저장
-            sd.AddEnemy(spawn); 
-
-            Transform last = validPoints[tmpLength - 1];
-            validPoints[randIndex] = last;
-        }
+        // 아래층 -> 위층 순으로 정렬
+        groups.Sort((a, b) => a[0].transform.position.y.CompareTo(b[0].transform.position.y));
+        return groups;
     }
-
-    /// <summary>
-    /// 적 스폰량 업데이트
-    /// </summary>
-    /// <param name="amount"></param>
-    public void UpdateEnemySpawnAmount(int amount) => _spawnEnemyAmount = amount;
 }

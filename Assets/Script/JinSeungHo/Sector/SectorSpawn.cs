@@ -17,8 +17,6 @@ public class SectorSpawn : MonoBehaviour
     /// </summary>
     public static event Action<SectorData> OnSectorSpawned;
 
-    
-
     [Header("생성할 시작 섹터 프리팹"), SerializeField]   
     private GameObject[] _startSectorPrefab;
     
@@ -74,6 +72,12 @@ public class SectorSpawn : MonoBehaviour
                 GameObject sectorObj = Instantiate(_normalSectorPrefab[rand],
                                         spawnPos, Quaternion.identity);
                 
+                PlatformGenerator pg = sectorObj.GetComponent<PlatformGenerator>();
+                pg.GeneratePlatforms();
+
+                EnemySpawner spawner = sectorObj.GetComponent<EnemySpawner>();
+                spawner.SpawnEnemies(pg.SpawnedPlatforms);
+
                 SectorData data = sectorObj.GetComponent<SectorData>();
                 data.Init(nextSectorPos);
 
