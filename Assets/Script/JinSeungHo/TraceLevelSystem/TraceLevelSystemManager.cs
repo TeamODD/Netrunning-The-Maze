@@ -1,44 +1,89 @@
+using System;
 using UnityEngine;
 
 public class TraceLevelSystemManager : MonoBehaviour
 {
     public static TraceLevelSystemManager Instance;
 
-    public const float DAMAGE_TAKEN_MODIFIER = 0.01f;   // 받는 데미지 증가율
-    public const float TOTAL_DAMAGE_MODIFIER = 0.01f;   // 주는 데미지 증가율
-    public const float ENEMY_MAXHP_MODIFIER = 0.005f;   // 적 최대 체력 증가율
+    /// <summary>
+    /// Trace 수치가 변경되었을 때 발행 (HUD, 플레이어, 적 구독용)
+    /// </summary>
+    public static event Action<int> OnTraceChanged;
 
-    [Header("적 처치 수"), SerializeField]
-    private int _totalKill;
+    /// <summary>
+    /// 20킬 배수에 도달 시 발행 
+    /// </summary>
+    public static event Action<int> OnKillMilestoneReached;
 
-    [Header("현재 받는 데미지 증가량"), SerializeField]
-    private float _currDamageTakenMod;
-    public float CurrDamageTakenMod => _currDamageTakenMod;
+    [Header("추적 레벨 (누적 적 처치 수)"), SerializeField]
+    private int _trace;
+    public int Trace => _trace;
 
-    [Header("현재 주는 데미지 증가량"), SerializeField]
-    private float _currTotalDamageMod;
-    public float CurrTotalDamageMod => _currTotalDamageMod;
-    
-    [Header("현재 적 최대 체력 증가량"), SerializeField]
-    private float _currEnemyMaxhpMod;
-    public float CurrEnemyMaxhpMod => _currEnemyMaxhpMod;
+    /// <summary>
+    /// 플레이어 공격력 반환 = floor(40 + 60 * (Trace / 120)^1.6)
+    /// </summary>
+    public int PlayerATK
+    {
+        get
+        {
+            float ratio = (float)_trace / 120f;
+            return Mathf.FloorToInt(40f + 60f * Mathf.Pow(ratio, 1.6f));
+        }
+    }
+
+    /// <summary>
+    /// 적 공격력 반환 = floor(20 + 80 * (Trace / 180)^1.6)
+    /// </summary>
+    public int EnemyATK
+    {
+        get
+        {
+            float ratio = (float)_trace / 180f;
+            return Mathf.FloorToInt(20f + 80f * Mathf.Pow(ratio, 1.6f));
+        }
+    }
+
+    /// <summary>
+    /// 근접 적 공격력 (EnemyATK * 1.0)
+    /// </summary>
+    public int MeleeEnemyATK => Mathf.FloorToInt(EnemyATK * 1.0f);
+
+    /// <summary>
+    /// 드론 탄환 공격력 (EnemyATK * 0.5)
+    /// </summary>
+    public int DroneEnemyATK => Mathf.FloorToInt(EnemyATK * 0.5f);
 
     private void Awake()
     {
         if(Instance == null)    Instance = this;
         else                    Destroy(gameObject);
 
-        _totalKill = 0;
-        _currDamageTakenMod = 0;
-        _currEnemyMaxhpMod = 0;
-        _currTotalDamageMod = 0;
+        _trace = 0;
     }
 
+    /// <summary>
+    /// 적 처치 시 호출되어 Trace 수치를 1 증가시키고 이벤트를 발행
+    /// </summary>
     public void IncreaseKillCount()
     {
-        ++_totalKill;
-        _currDamageTakenMod += DAMAGE_TAKEN_MODIFIER;
-        _currTotalDamageMod += TOTAL_DAMAGE_MODIFIER;
-        _currEnemyMaxhpMod += ENEMY_MAXHP_MODIFIER;
+        _trace++;
+
+        // Trace 변경 이벤트 전달
+        OnTraceChanged?.Invoke(_trace);
+
+        // 정확히 20 배수로 1회씩 이벤트 발행
+        if (_trace > 0 && _trace % 20 == 0)
+        {
+            OnKillMilestoneReached?.Invoke(_trace);
+        }
+    }
+
+    /// <summary>
+    /// 런 재시작 등을 위한 초기화
+    /// </summary>
+    public void ResetTrace()
+    {
+        _trace = 0;
+        OnTraceChanged?.Invoke(_trace);
     }
 }
