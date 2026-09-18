@@ -168,8 +168,6 @@ MonoBehaviour:
   - {fileID: 5181202095264500402, guid: 9aedd11f667504c419597a3bfad17407, type: 3}
   _normalSectorPrefab:
   - {fileID: 8713063347808280115, guid: 9db8f264b705fc343a7b68d0ece91ea8, type: 3}
-  - {fileID: 5181202095264500402, guid: 9aedd11f667504c419597a3bfad17407, type: 3}
-  - {fileID: 5181202095264500402, guid: 3e12f660dad72c34b83e198ae33dd91e, type: 3}
   _adminSectorPrefab: []
   _stableSectorPrefab: []
 --- !u!114 &26986029
@@ -493,10 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0417fa3a388e843807a14b62beab94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TraceLevelSystemManager
-  _totalKill: 0
-  _currDamageTakenMod: 0
-  _currTotalDamageMod: 0
-  _currEnemyMaxhpMod: 0
+  _trace: 0
 --- !u!1 &1958323674
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +554,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   _enemyList: {fileID: 1958323676}
+  _container: {fileID: 0}
   _spawnEnemyAmount: 10
+  _edgeMargin: 1
+  _spawnYOffset: 0.8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
