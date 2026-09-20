@@ -18,7 +18,11 @@ public class SectorManager : MonoBehaviour
     [Header("플레이어 좌표 체크 주기"), SerializeField]
     private float _checkingInterval;
 
-    [Header("플레이어")]    private GameObject _player;
+    private float _purgeDamageTimer;
+
+    [Header("플레이어"), SerializeField]    private GameObject _player;
+    
+    private PlayerStatus _playerStat;
 
     /// <summary>
     /// 현재 플레이어가 위치한 섹터의 삭제 프로토콜
@@ -39,6 +43,8 @@ public class SectorManager : MonoBehaviour
         else                    Destroy(gameObject);
 
         if(_player == null) _player = GameObject.FindGameObjectWithTag("Player");
+        if(_player != null) _playerStat = _player.GetComponent<PlayerStatus>();
+
         _currPlayerPos = new Vector2Int(0, 0);
 
         if(_sectorSpawner == null)  _sectorSpawner = GetComponent<SectorSpawn>();
@@ -70,14 +76,29 @@ public class SectorManager : MonoBehaviour
         if (_currSectorDeleteProtocol != null)
         {
             _currSectorDeleteProtocol.ProtocolUpdate(_currStayDuration);
+
+            float damagePercent = _currSectorDeleteProtocol.GetPurgeDamagePercentage();
+
+            if(damagePercent > 0f && _playerStat != null)
+            {
+                _purgeDamageTimer += Time.deltaTime;
+                if(_purgeDamageTimer >= 1.0f)
+                {
+                    _purgeDamageTimer = 0f;
+                    float damage = _playerStat.MaxHp * damagePercent;
+                    _playerStat.TakeDamage(damage);
+                }
+            }
+            else
+            {
+                _purgeDamageTimer = 0f;
+            }
         }
         else
         {
             _currStayDuration = 0f;
+            _purgeDamageTimer = 0f;
         }
-
-        // TODO: 여기서 나중에 GetPurgeDamagePercentage() 를 통해
-        // 플레이어에게 입힐 퍼센트 데미지 비례 양을 계산 후 플레이어 HP에 반영
     }
 
     private void UpdateSectorState()

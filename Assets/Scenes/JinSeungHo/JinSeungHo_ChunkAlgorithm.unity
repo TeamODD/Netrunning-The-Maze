@@ -169,7 +169,8 @@ MonoBehaviour:
   _normalSectorPrefab:
   - {fileID: 8713063347808280115, guid: 9db8f264b705fc343a7b68d0ece91ea8, type: 3}
   _adminSectorPrefab: []
-  _stableSectorPrefab: []
+  _stableSectorPrefab:
+  - {fileID: 7352700349831948452, guid: c61ca1a08e0703e4e8d4400cf531ba1d, type: 3}
 --- !u!114 &26986029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +186,7 @@ MonoBehaviour:
   _sectorSpawner: {fileID: 26986028}
   _currPlayerPos: {x: 0, y: 0}
   _checkingInterval: 0.1
+  _player: {fileID: 0}
 --- !u!1 &786269391
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1777376897}
   - component: {fileID: 1777376898}
+  - component: {fileID: 1777376899}
   m_Layer: 0
   m_Name: TraceLevelSystemManager
   m_TagString: Untagged
@@ -492,6 +495,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TraceLevelSystemManager
   _trace: 0
+--- !u!114 &1777376899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777376896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87972351f132568419611f984dc31eac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InfiltrationModule
 --- !u!1 &1958323674
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,25 +6,25 @@ public class PlayerStatus : CharacterStatus
 
     protected override void Awake()
     {
-        base.Awake(); // ºÎ¸ð(CharacterStatus)ÀÇ Awake() ¸ÕÀú ½ÇÇà (currentHp = maxHp ÃÊ±âÈ­)
+        base.Awake(); // ï¿½Î¸ï¿½(CharacterStatus)ï¿½ï¿½ Awake() ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (currentHp = maxHp ï¿½Ê±ï¿½È­)
         playerMovement = GetComponent<PlayerMovement>();
     }
 
-    // ºÎ¸ðÀÇ TakeDamage¸¦ °¡Á®¿Í¼­ ¹«Àû Ã¼Å© ·ÎÁ÷À» Ãß°¡
+    // ï¿½Î¸ï¿½ï¿½ï¿½ TakeDamageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
     public override void TakeDamage(float damage)
     {
-        // ´ë½Ã Áß(¹«Àû »óÅÂ)ÀÌ¶ó¸é µ¥¹ÌÁö¸¦ ¹«½ÃÇÏ°í ¸®ÅÏ
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (playerMovement != null && playerMovement.isInvincible)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î°¡ ´ë½Ã ¹«Àû »óÅÂÀÌ¹Ç·Î µ¥¹ÌÁö¸¦ ¹ÞÁö ¾Ê½À´Ï´Ù.");
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
-        // ¹«ÀûÀÌ ¾Æ´Ï¶ó¸é ºÎ¸ð Å¬·¡½ºÀÇ ±âº» TakeDamage(µ¥¹ÌÁö Â÷°¨ ¹× HP Á¦ÇÑ) ½ÇÇà
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Î¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº» TakeDamage(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ HP ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½
         base.TakeDamage(damage);
     }
 
-    // ºÎ¸ðÀÇ Die¸¦ °¡Á®¿Í¼­ ÇÃ·¹ÀÌ¾î Àü¿ë »ç¸Á Ã³¸® ÀÛ¼º
+    // ï¿½Î¸ï¿½ï¿½ï¿½ Dieï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Û¼ï¿½
     protected override void Die()
     {
         base.Die();

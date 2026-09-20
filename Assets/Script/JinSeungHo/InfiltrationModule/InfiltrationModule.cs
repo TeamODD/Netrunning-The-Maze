@@ -32,9 +32,27 @@ public class InfiltrationModule : MonoBehaviour
     /// </summary>
     private readonly float BERSERK_INCREASE_PER_STACK = 0.15f;
 
-    [SerializeField, Header("침투 모듈 스택")]
+    public static InfiltrationModule Instance;
+
+    // 침투 모듈 스택
     private int[] _moduleStack = { 0, 0, 0, 0, 0, 0, 0 };
     public int[] ModuleStack => _moduleStack;
+
+    private void Start()
+    {
+        if(Instance == null)    Instance = this;
+        else                    Destroy(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        TraceLevelSystemManager.OnKillMilestoneReached += HandleKillMilestone;
+    }
+
+    private void OnDisable()
+    {
+        TraceLevelSystemManager.OnKillMilestoneReached -= HandleKillMilestone;
+    }
 
     /// <summary>
     /// 모듈 타입에 따라 받는 효과 가중치 반환
@@ -73,12 +91,20 @@ public class InfiltrationModule : MonoBehaviour
     /// <param name="met">모듈 타입</param>
     /// <param name="stack">증감할 스택 횟수</param>
     /// <returns>스택 증감 성공/실패 여부 반환</returns>
-    public bool UpdateModuleStack(ModuleEffectType met, int stack)
+    private bool UpdateModuleStack(ModuleEffectType met, int stack)
     {
         if(_moduleStack[(int)met] + stack < 0f) return false;
 
         _moduleStack[(int)met] += stack;
 
         return true;
+    }
+
+    private void HandleKillMilestone(int trace)
+    {
+        ModuleEffectType randModule = (ModuleEffectType)Random.Range(0, 7);
+        UpdateModuleStack(randModule, 1);
+        
+        Debug.Log($"모듈 지급 | {randModule} : {_moduleStack[(int)randModule]}");
     }
 }
