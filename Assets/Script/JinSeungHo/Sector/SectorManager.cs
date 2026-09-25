@@ -32,6 +32,9 @@ public class SectorManager : MonoBehaviour
     private Dictionary<Vector2Int, GameObject> _sectorMap = new Dictionary<Vector2Int, GameObject>();
     public Dictionary<Vector2Int, GameObject> SectorMap => _sectorMap;
 
+    private HashSet<Vector2Int> _visitedSectors = new HashSet<Vector2Int>();
+    public int DiscoveredSectorCount => _visitedSectors.Count;
+
     /// <summary>
     /// 현재 섹터에서 머문 시간
     /// </summary>
@@ -62,6 +65,8 @@ public class SectorManager : MonoBehaviour
 
         _currStayDuration = 0;
         
+        _visitedSectors.Add(_currPlayerPos);
+
         // 좌표 확인 주기는 최소 0.05초 마다 수행
         if(_checkingInterval < 0.05f)  _checkingInterval = 0.05f;
 
@@ -118,7 +123,7 @@ public class SectorManager : MonoBehaviour
 
                     if(distance > INACTIVE_DISTANCE - 1)
                     {
-                        data.ChangeState(SectorState.Inactive);
+                        data.ChangeState(SectorState.InActive);
                         go.SetActive(false);
                     }
                     else
@@ -145,7 +150,7 @@ public class SectorManager : MonoBehaviour
 
             Vector2Int newPos = new Vector2Int(px, py);
 
-            if(newPos != _currPlayerPos)
+            if(newPos != _currPlayerPos)        // 플레이어가 다른 섹터로 진입
             {
                 _currPlayerPos = newPos;
                 _sectorSpawner.SpawnNextSector(newPos, _sectorMap);
@@ -158,8 +163,10 @@ public class SectorManager : MonoBehaviour
                         _currStayDuration = _currSectorDeleteProtocol.StayDuration;
                     }
                 }
-                
+
                 UpdateSectorState();
+
+                _visitedSectors.Add(newPos);
             }
 
             yield return delay;

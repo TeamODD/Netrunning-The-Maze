@@ -55,6 +55,17 @@ public class InfiltrationModule : MonoBehaviour
     }
 
     /// <summary>
+    /// 획득 모듈 수 반환
+    /// </summary>
+    /// <returns>획득 모듈 수</returns>
+    public int TotalModuleCount()
+    {
+        int total = 0;
+        foreach(int count in _moduleStack)  total += count;
+        return total;
+    }
+
+    /// <summary>
     /// 모듈 타입에 따라 받는 효과 가중치 반환
     /// </summary>
     /// <param name="met">모듈 타입</param>

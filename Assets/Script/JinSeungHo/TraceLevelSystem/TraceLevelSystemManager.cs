@@ -17,7 +17,11 @@ public class TraceLevelSystemManager : MonoBehaviour
 
     [Header("추적 레벨 (누적 적 처치 수)"), SerializeField]
     private int _trace;
-    public int Trace => _trace;
+    public int KillCount => _trace;
+
+    [Header("보스 처치 수"), SerializeField]
+    private int _bossKillCount;
+    public int BossKillCount => _bossKillCount;
 
     /// <summary>
     /// 플레이어 공격력 반환 = floor(40 + 60 * (Trace / 120)^1.6)
@@ -59,6 +63,7 @@ public class TraceLevelSystemManager : MonoBehaviour
         else                    Destroy(gameObject);
 
         _trace = 0;
+        _bossKillCount = 0;
     }
 
     /// <summary>
@@ -67,6 +72,8 @@ public class TraceLevelSystemManager : MonoBehaviour
     public void IncreaseKillCount()
     {
         _trace++;
+
+        // TODO: 보스 처치시 보스 처치 수 증가
 
         // Trace 변경 이벤트 전달
         OnTraceChanged?.Invoke(_trace);
@@ -84,6 +91,7 @@ public class TraceLevelSystemManager : MonoBehaviour
     public void ResetTrace()
     {
         _trace = 0;
+        _bossKillCount = 0;
         OnTraceChanged?.Invoke(_trace);
     }
 }
