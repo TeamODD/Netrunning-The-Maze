@@ -657,8 +657,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   _enemyList: {fileID: 4854444892919162191}
+  _droneSpawnAmount: 2
+  _droneAirOffset: 1.5
   _container: {fileID: 6383268170616096890}
-  _spawnEnemyAmount: 6
+  _spawnEnemyAmount: 7
   _edgeMargin: 1
   _spawnYOffset: 0.8
 --- !u!114 &4854444892919162191
